@@ -43,6 +43,7 @@
 
 #include <global_planner/dijkstra.h>
 #include <global_planner/astar.h>
+#include <global_planner/a_super_star.h>
 #include <global_planner/grid_path.h>
 #include <global_planner/gradient_path.h>
 #include <global_planner/quadratic_calculator.h>
@@ -113,20 +114,28 @@ void GlobalPlanner::initialize(std::string name, costmap_2d::Costmap2D* costmap,
         else
             p_calc_ = new PotentialCalculator(cx, cy);
 
-        bool use_dijkstra;
-        private_nh.param("use_dijkstra", use_dijkstra, true);
-        if (use_dijkstra)
+        std::string planning_algorithm;
+        private_nh.param("planning_algorithm", planning_algorithm, "a_super_star");
+        if (planning_algorithm == "a_super_star")
+        {
+            planner_ = new AStarExpansion(p_calc_, cx, cy);
+        } 
+        else if (planning_algorithm == "astar")
+        {
+            planner_ = new AStarExpansion(p_calc_, cx, cy);
+        }
+        else 
         {
             DijkstraExpansion* de = new DijkstraExpansion(p_calc_, cx, cy);
             if(!old_navfn_behavior_)
                 de->setPreciseStart(true);
             planner_ = de;
         }
-        else
-            planner_ = new AStarExpansion(p_calc_, cx, cy);
 
+        // TODO: there is issue with combination astar/a_super_star and gradient_path
+        // the planing is getting too long, check the GradientPath::getPath
         bool use_grid_path;
-        private_nh.param("use_grid_path", use_grid_path, false);
+        private_nh.param("use_grid_path", use_grid_path, true);
         if (use_grid_path)
             path_maker_ = new GridPath(p_calc_);
         else
