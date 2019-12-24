@@ -51,7 +51,7 @@ class ASuperStar : public AStarExpansion {
         void calculateRisk(unsigned char* costs);
         float beta, theta;
         std::vector<std::vector<float> > risks_mat;
-        int kernel_szie_;
+        int kernel_size_;
 };
 
 } //end namespace global_planner

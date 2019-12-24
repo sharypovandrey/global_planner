@@ -51,7 +51,7 @@ ASuperStar::ASuperStar(PotentialCalculator* p_calc, int xs, int ys) :
             // the distance coefficient
             theta = 1;
             // kernel size is a range for obstacle cell where we calculate risk values
-            kernel_szie_ = 20;
+            kernel_size_ = 20;
 }
 
 bool ASuperStar::calculatePotentials(unsigned char* costs, double start_x, double start_y, double end_x, double end_y, int cycles, float* potential) {
@@ -121,7 +121,7 @@ void ASuperStar::calculateRisk(unsigned char* costs) {
     }
 
     int cost_val;
-    int offset_ = int(kernel_szie_ / 2);
+    int offset_ = int(kernel_size_ / 2);
     for (int xi_ = 0; xi_ < costs_mat.size(); xi_++) {
         for (int yi_ = 0; yi_ < costs_mat[0].size(); yi_++) {
 
@@ -131,8 +131,8 @@ void ASuperStar::calculateRisk(unsigned char* costs) {
                 continue; 
             }
 
-            for (int kx = -offset_; kx < kernel_szie_ - offset_; kx++) {
-                for (int ky = -offset_; ky < kernel_szie_ - offset_; ky++) {
+            for (int kx = -offset_; kx < kernel_size_ - offset_; kx++) {
+                for (int ky = -offset_; ky < kernel_size_ - offset_; ky++) {
                     // check that index is not out of bounds
                     if (
                         xi_ + kx >= 0 && xi_ + kx < nx_ && 
