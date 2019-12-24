@@ -56,14 +56,15 @@ ASuperStar::ASuperStar(PotentialCalculator* p_calc, int xs, int ys) :
 
 bool ASuperStar::calculatePotentials(unsigned char* costs, double start_x, double start_y, double end_x, double end_y, int cycles, float* potential) {
 
-    calculateRisk(costs);
-
     queue_.clear();
     int start_i = toIndex(start_x, start_y);
     queue_.push_back(Index(start_i, 0));
 
     std::fill(potential, potential + ns_, POT_HIGH);
     potential[start_i] = 0;
+
+    // let's prepare risks map
+    calculateRisk(costs);
 
     int goal_i = toIndex(end_x, end_y);
     int cycle = 0;
