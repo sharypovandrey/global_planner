@@ -48,6 +48,10 @@ class ASuperStar : public AStarExpansion {
     public:
         ASuperStar(PotentialCalculator* p_calc, int nx, int ny);
     private:
+        // To build risks map we check the obstacles on the map and then we set 
+        // risk value to each cell near the obstacle cell in range that equal kernel_size_.
+        // Using this risk we can give additional informationt to robot for better decision
+        // especially when robot is moving near the wall or among objects.
         void calculateRisk(unsigned char* costs);
         float beta, theta;
         std::vector<std::vector<float> > risks_mat;
