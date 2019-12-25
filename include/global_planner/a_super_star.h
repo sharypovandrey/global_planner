@@ -38,16 +38,19 @@
 #define _A_SUPER_STAR_H
 
 #include <global_planner/planner_core.h>
+#include <global_planner/expander.h>
 #include <global_planner/astar.h>
 #include <vector>
 #include <algorithm>
 
 namespace global_planner {
 
-class ASuperStar : public AStarExpansion {
+class ASuperStar : public Expander {
     public:
         ASuperStar(PotentialCalculator* p_calc, int nx, int ny);
+        bool calculatePotentials(unsigned char* costs, double start_x, double start_y, double end_x, double end_y, int cycles, float* potential);
     private:
+        void add(unsigned char* costs, float* potential, float prev_potential, int next_i, int end_x, int end_y);
         // To build risks map we check the obstacles on the map and then we set 
         // risk value to each cell near the obstacle cell in range that equal kernel_size_.
         // Using this risk we can give additional informationt to robot for better decision
@@ -56,6 +59,7 @@ class ASuperStar : public AStarExpansion {
         float beta, theta;
         std::vector<std::vector<float> > risks_mat;
         int kernel_size_;
+        std::vector<Index> queue_;
 };
 
 } //end namespace global_planner

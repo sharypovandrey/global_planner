@@ -34,24 +34,25 @@
  *
  * Author: Andrey Sharypov
  *********************************************************************/
-#include<global_planner/astar_ai.h>
-#include<costmap_2d/cost_values.h>
+#include <global_planner/expander.h>
+#include <global_planner/a_super_star.h>
+#include <global_planner/astar.h>
+#include <costmap_2d/cost_values.h>
 #include <ros/ros.h>
 #include <math.h>
 #include <algorithm>    // std::max
-#include <iomanip>      // std::setw
 
 
 namespace global_planner {
 
 ASuperStar::ASuperStar(PotentialCalculator* p_calc, int xs, int ys) :
-        Expander(p_calc, xs, ys) {
-            // the risk coefficient
-            beta = 50;
-            // the distance coefficient
-            theta = 1;
-            // kernel size is a range for obstacle cell where we calculate risk values
-            kernel_size_ = 20;
+    Expander(p_calc, xs, ys) {
+        // the risk coefficient
+        beta = 50;
+        // the distance coefficient
+        theta = 1;
+        // kernel size is a range for obstacle cell where we calculate risk values
+        kernel_size_ = 20;
 }
 
 bool ASuperStar::calculatePotentials(unsigned char* costs, double start_x, double start_y, double end_x, double end_y, int cycles, float* potential) {

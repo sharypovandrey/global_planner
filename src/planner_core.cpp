@@ -115,10 +115,10 @@ void GlobalPlanner::initialize(std::string name, costmap_2d::Costmap2D* costmap,
             p_calc_ = new PotentialCalculator(cx, cy);
 
         std::string planning_algorithm;
-        private_nh.param("planning_algorithm", planning_algorithm, "a_super_star");
+        private_nh.param<std::string>("planning_algorithm", planning_algorithm, "astar");
         if (planning_algorithm == "a_super_star")
         {
-            planner_ = new AStarExpansion(p_calc_, cx, cy);
+            planner_ = new ASuperStar(p_calc_, cx, cy);
         } 
         else if (planning_algorithm == "astar")
         {
