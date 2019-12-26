@@ -47,6 +47,8 @@
 #include <global_planner/grid_path.h>
 #include <global_planner/gradient_path.h>
 #include <global_planner/quadratic_calculator.h>
+#include <ros/ros.h>
+
 
 //register this planner as a BaseGlobalPlanner plugin
 PLUGINLIB_EXPORT_CLASS(global_planner::GlobalPlanner, nav_core::BaseGlobalPlanner)
@@ -117,7 +119,8 @@ void GlobalPlanner::initialize(std::string name, costmap_2d::Costmap2D* costmap,
         std::string planning_algorithm;
         private_nh.param<std::string>("planning_algorithm", planning_algorithm, "astar");
         planner_ = new ASuperStar(p_calc_, cx, cy);
-
+        ROS_INFO("THIS IS ASUPERSTAR GLOBAL PLANNER");
+        
         // TODO: there is issue with combination astar/a_super_star and gradient_path
         // the planing is getting too long, check the GradientPath::getPath
         bool use_grid_path;
